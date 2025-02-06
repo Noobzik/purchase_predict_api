@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+mlflow
+pandas
+scikit-learn
+google-cloud-storage
+lightgbm
