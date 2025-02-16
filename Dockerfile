@@ -16,8 +16,8 @@ COPY requirements.txt /app/requirements.txt
 
 RUN uv pip install --no-cache-dir -r requirements.txt --system
 # On ouvre et expose le port 80
-EXPOSE 80
+EXPOSE $PORT
 
 # Lancement de l'API
 # Attention : ne pas lancer en daemon !
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:80", "-w", "4"]
+CMD exec gunicorn -b :$PORT -w 4 app:app
