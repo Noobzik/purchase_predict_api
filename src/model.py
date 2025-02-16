@@ -9,7 +9,7 @@ ENV = os.getenv("ENV")
 mlflow.set_tracking_uri(os.getenv("MLFLOW_SERVER"))
 
 
-class Model():
+class Model:
 
     def __init__(self):
         self.model = None
@@ -19,10 +19,16 @@ class Model():
     def load_model(self):
         # We query currently staging or production model, according to environment specification
         client = MlflowClient()
-        model_version = client.get_latest_versions(os.getenv("MLFLOW_REGISTRY_NAME"), [ENV])[0]
-        pipeline_path = client.download_artifacts(model_version.run_id, "transform_pipeline.pkl")
+        model_version = client.get_latest_versions(
+            os.getenv("MLFLOW_REGISTRY_NAME"), [ENV]
+        )[0]
+        pipeline_path = client.download_artifacts(
+            model_version.run_id, "transform_pipeline.pkl"
+        )
 
-        self.model = mlflow.sklearn.load_model("runs:/{}/model".format(model_version.run_id))
+        self.model = mlflow.sklearn.load_model(
+            "runs:/{}/model".format(model_version.run_id)
+        )
         # We must also retrieve transform pipeline from artifacts
         self.transform_pipeline = joblib.load(pipeline_path)
 
