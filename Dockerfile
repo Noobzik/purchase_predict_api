@@ -1,13 +1,11 @@
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-RUN apt update
-RUN apt install libgomp1 -y
+RUN apt update && apt install -y --no-install-recommends libgomp1 \
+    && apt clean && rm -rf /var/lib/apt/lists/*
 
 # Mise à jour de pip3
 #RUN pip install --upgrade pip
 #RUN python3 --version
-
-RUN mkdir /app
 
 WORKDIR /app
 
